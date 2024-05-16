@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  clash:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - clash-ssh:latest
+    volumes:
+      - ./config:/root/.config/clash
+      - ./log:/var/main
+    restart: always
+    ports:
+      - 1111:22      # 外部SSH端口
+      - 9091:9090    # Clash仪表盘端口
+    cap_add:
+      - NET_ADMIN    # 为了Tun模式这里给容器添加了NET_ADMIN特权，如为了安全可不设置特权，使用普通的SSH -L端口转发而非Tun模式
+

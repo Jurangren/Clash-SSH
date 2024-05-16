@@ -1,0 +1,14 @@
+*******************************************************************************
+*                                                                             *
+*                            System Notification                              *
+*                                                                             *
+*                             To Use Clash Proxy,                             *
+*             You Should Use This Command Connction This Server:              *
+*                                                                             *
+*              ->| ssh -D <Lport> User@ThisIP -p <SSHport> |<-                *
+*                                                                             *
+*                Then you can use socks5://127.0.0.1:<Lport>                  *
+*                                                                             *
+*                 WARNING: Do not Disconnection this ssh!!!                   *
+*                                                                             *
+*******************************************************************************
