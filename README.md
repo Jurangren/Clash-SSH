@@ -5,9 +5,9 @@
 ## 部署
 
 1. clone本项目，cd到`clash-ssh/`文件夹下
-2. 将你的clash订阅文件`config.yaml`下载到`clash-ssh/config/`下
+2. 将你的clash订阅文件`config.yaml`下载到`clash-ssh/config/`下，并且需要添加下图所示红框里的内容
 
-![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715843506937-c66e9fcf-a99e-4346-bd82-91e22e898b82.png#averageHue=%232a2b37&clientId=uff897a29-4d8a-4&from=paste&height=503&id=u203be0e8&originHeight=503&originWidth=815&originalType=binary&ratio=1&rotation=0&showTitle=false&size=46212&status=done&style=none&taskId=u8f0b5c94-3c00-4921-a37a-557605f28fc&title=&width=815)
+![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715848932361-83b3ffca-1bc8-4622-aef1-ab8ed301050f.png#averageHue=%232b2b37&clientId=uff897a29-4d8a-4&from=paste&height=758&id=ua3b5a283&originHeight=758&originWidth=1721&originalType=binary&ratio=1&rotation=0&showTitle=false&size=260223&status=done&style=none&taskId=u4d60030b-d04d-46ee-8891-2111696d56c&title=&width=1721)
 
 3. 如果需要修改开放端口（默认`1111,9091`），请修改`docker-compose.yaml`中的`ports`部分
 
@@ -32,11 +32,18 @@
 <a name="vxDDa"></a>
 ## 连接和使用
 
-1. 用户通过连接部署的clash-ssh暴露在外部的ssh端口，并使用`-D`设置一个本地动态转发端口
+1. 用户通过连接部署的clash-ssh暴露在外部的ssh端口，并使用`-D`设置一个本地动态转发端口：`ssh -D <Lport> <user>@<ip> -p1111`
 
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715844269368-98ffbb13-6562-4f91-9b6c-71d2ec05de63.png#averageHue=%232b2c38&clientId=uff897a29-4d8a-4&from=paste&height=312&id=u9d8a07e1&originHeight=312&originWidth=714&originalType=binary&ratio=1&rotation=0&showTitle=false&size=34917&status=done&style=none&taskId=ua67b76c1-f197-4237-8ad7-c9fcd1cc425&title=&width=714)
 
-2. 用户使用`socks5://127.0.0.1:4444`即可接通代理
+2. 用户使用`socks5://127.0.0.1:<Lport>`即可接通代理
 
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715844771328-6b468445-b361-4d6b-8a08-7a74cce91266.png#averageHue=%232c2d39&clientId=uff897a29-4d8a-4&from=paste&height=186&id=udddd1efe&originHeight=186&originWidth=906&originalType=binary&ratio=1&rotation=0&showTitle=false&size=37287&status=done&style=none&taskId=u64af0f57-4ee2-467e-b5ad-b2a1fcda9b9&title=&width=906)
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715844631788-ae86cb4e-abd6-4451-aad7-49a7739e628a.png#averageHue=%232e2f3b&clientId=uff897a29-4d8a-4&from=paste&height=1055&id=u86ba4b95&originHeight=1055&originWidth=2486&originalType=binary&ratio=1&rotation=0&showTitle=false&size=319866&status=done&style=none&taskId=u18ad6cbf-6a51-4a31-8a41-296eb037ee1&title=&width=2486)
+<a name="h9zLV"></a>
+## 非Tun模式
+开启Tun模式模式需要给容器添加`NET_ADMIN`特权，虽然添加用户的时候已经将登录shell设置为`/bin/tee`，但如果很介意该特权也可以关闭Tun模式
+
+1. 修改你的clash`config.yaml`配置文件，去除掉Tun部分的内容
+2. 将`docker-compose.yaml`中`cap_add: NET_ADMIN`两行删去
+3. 重新构建部署，以后用户连接时使用`ssh -L <Lport>:127.0.0.1:<SocksPort> <user>@<ip> -p1111`
