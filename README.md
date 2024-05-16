@@ -1,6 +1,7 @@
 <a name="A1OuV"></a>
 # Clash-SSH Docker
 基于Docker，以SSH连接为接入方式的多用户认证Clash Proxy接入方案
+本项目已接入Github：[https://github.com/Jurangren/Clash-SSH](https://github.com/Jurangren/Clash-SSH)
 <a name="lksUg"></a>
 ## 部署
 
@@ -22,13 +23,19 @@
 - 关停：`sudo docker-compose stop`
 - 日志查看：`tail -f config/main.log`或`docker logs -f clash-clash-1`
 <a name="xNr0A"></a>
-## 用户添加/删除
+## 管理
+<a name="NlkeG"></a>
+### 用户添加/删除
 
 1. `docker exec -it clash-ssh-clash-1 bash`进入容器bash
 2. 用户添加：`/adduser.sh <用户名> <密码>`，相当于执行`useradd -m -p $(openssl passwd -1 $password) -s /bin/tee $username`，登录进来的用户shell为`/bin/tee`
 3. 用户删除：`userdel <用户名>`
 
 ![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715843957764-e498d7be-b209-4e4c-9683-a90d7bb631d1.png#averageHue=%2330303e&clientId=uff897a29-4d8a-4&from=paste&height=146&id=u767e44fb&originHeight=146&originWidth=848&originalType=binary&ratio=1&rotation=0&showTitle=false&size=36026&status=done&style=none&taskId=u28048247-96e5-403a-b0de-1c7058cb5b0&title=&width=848)
+<a name="cUKoX"></a>
+### 仪表盘
+浏览器访问`http://ip:9091/ui`（未修改暴露端口情况下）
+![image.png](https://cdn.nlark.com/yuque/0/2024/png/40483021/1715850178288-cae4b588-9a46-4fa8-a902-fb83028c11bc.png#averageHue=%23c9cacc&clientId=u5235b188-ddf7-4&from=paste&height=1034&id=u64ec533c&originHeight=1034&originWidth=1420&originalType=binary&ratio=1&rotation=0&showTitle=false&size=92900&status=done&style=none&taskId=uf596e488-6534-4cf8-bd7d-f506ad0a941&title=&width=1420)
 <a name="vxDDa"></a>
 ## 连接和使用
 
